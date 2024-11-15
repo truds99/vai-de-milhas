@@ -38,6 +38,41 @@ describe("miles-service Unit Testing", () => {
         expect(miles).toBe(expectedMiles);
     })
 
+    it("Should throw an error when miles is already registered", () => {
+
+        const trip: Trip = {
+            code: "TRIP123",
+            origin: {
+              lat: 23.55052,
+              long: 46.633308
+            },
+            destination: {
+              lat: 40.712776,
+              long: 74.005974
+            },
+            miles: false,
+            plane: "Boeing 737",
+            service: ServiceClass.EXECUTIVE,
+            affiliate: AffiliateStatus.GOLD,
+            date: "2024-12-25"
+        };
+
+        jest.spyOn(milesCalculatorService, "calculateMiles").mockReturnValueOnce(5970);
+        jest.spyOn(milesRepository, "findMiles").mockResolvedValueOnce({
+            id: 1,
+            code: "TRIP123",
+            miles: 123
+        });
+        jest.spyOn(milesRepository, "saveMiles").mockResolvedValueOnce(undefined);
+        
+        const promise = generateMilesForTrip(trip);
+
+        expect(promise).rejects.toEqual({
+            type: "conflict",
+            message: `Miles already registered for code ${trip.code}`
+        });
+    })
+
     it("Should return miles from a code", async () => {
         
         jest.spyOn(milesRepository, "findMiles").mockResolvedValueOnce({
@@ -54,4 +89,17 @@ describe("miles-service Unit Testing", () => {
             miles: 100
         });
     })
+
+    it("Should throw an error when miles is not found", () => {
+        
+        jest.spyOn(milesRepository, "findMiles").mockResolvedValueOnce(undefined);
+        
+        const promise = getMilesFromCode('test');
+
+        expect(promise).rejects.toEqual({
+            type: "not_found",
+            message: `Miles not found for code test`
+        });
+    })
+
 })
