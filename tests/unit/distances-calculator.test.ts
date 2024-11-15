@@ -1,7 +1,6 @@
 import { applyHaversineFormula, calculateDistance, toRadius } from "services/distances-calculator-service";
 import * as distacesCalculatorService from "../../src/services/distances-calculator-service"
 
-
 beforeEach(() => {
     jest.clearAllMocks();
 })
@@ -27,14 +26,18 @@ describe("distances-calculator-service Unit Testing", () => {
           }, 
             false);
 
-        expect(distance).toBe(3184);
+        const expectedDistance = 3184;
+
+        expect(distance).toBe(expectedDistance);
     });
 
     it("Should calculate radius", async () => {
 
         const radius = toRadius(74.005974);
 
-        expect(radius).toBe(0.4115);
+        const expectedRadius = 0.4115;
+
+        expect(radius).toBe(expectedRadius);
     });
 
     it("Should apply Haversine formula", async () => {

@@ -33,11 +33,12 @@ describe("miles-service Unit Testing", () => {
 
         const miles = await generateMilesForTrip(trip);
 
-        expect(miles).toBe(5970);
+        const expectedMiles = 5970;
+
+        expect(miles).toBe(expectedMiles);
     })
 
     it("Should return miles from a code", async () => {
-        
         
         jest.spyOn(milesRepository, "findMiles").mockResolvedValueOnce({
             id: 1,
