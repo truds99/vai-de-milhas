@@ -11,6 +11,7 @@ export function calculateDistance(coords1: Location, coords2: Location, isMiles 
   const lat2 = toRadius(coords2.lat);
 
   let distance = applyHaversineFormula(lat1, lat2, dLat, dLon, radius);
+  
   return Math.round(distance);
 }
 
