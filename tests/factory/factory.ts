@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { Trip, ServiceClass, AffiliateStatus } from "protocols";
 
-export function createTrip(overrides: Partial<Trip> = {}) {
+export function createTrip() {
     return {
         code: faker.string.alphanumeric(7).toUpperCase(),
         origin: {
@@ -19,5 +19,15 @@ export function createTrip(overrides: Partial<Trip> = {}) {
         date: faker.date.future().toISOString()
     };
 }
+
+export function createMilesData() {
+    return {
+        id: Number(faker.number.bigInt()),
+        code: faker.string.alphanumeric(7).toUpperCase(),
+        miles: Number(faker.number.bigInt({ min: 100, max: 10000 }))
+    };
+}
+
+
 
 

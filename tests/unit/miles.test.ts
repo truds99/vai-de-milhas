@@ -2,7 +2,7 @@ import { generateMilesForTrip, getMilesFromCode } from "services/miles-service";
 import * as milesCalculatorService from "../../src/services/miles-calculator-service";
 import * as milesRepository from "../../src/repositories/miles-repository";
 import { Trip, ServiceClass, AffiliateStatus } from "protocols";
-import { createTrip } from "../factory/factory";
+import { createMilesData, createTrip } from "../factory/factory";
 
 beforeEach(() => {
     jest.clearAllMocks();
@@ -44,20 +44,13 @@ describe("miles-service Unit Testing", () => {
     })
 
     it("Should return miles from a code", async () => {
+        const milesData = createMilesData();
         
-        jest.spyOn(milesRepository, "findMiles").mockResolvedValueOnce({
-            id: 1,
-            code: 'test',
-            miles: 100
-        });
+        jest.spyOn(milesRepository, "findMiles").mockResolvedValueOnce(milesData);
         
         const miles = await getMilesFromCode('test');
 
-        expect(miles).toEqual({
-            id: 1,
-            code: 'test',
-            miles: 100
-        });
+        expect(miles).toEqual(milesData);
     })
 
     it("Should throw an error when miles is not found", () => {
