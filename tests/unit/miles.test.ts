@@ -1,7 +1,6 @@
 import { generateMilesForTrip, getMilesFromCode } from "services/miles-service";
 import * as milesCalculatorService from "../../src/services/miles-calculator-service";
 import * as milesRepository from "../../src/repositories/miles-repository";
-import { Trip, ServiceClass, AffiliateStatus } from "protocols";
 import { createMilesData, createTrip } from "../factory/factory";
 
 beforeEach(() => {
@@ -28,11 +27,7 @@ describe("miles-service Unit Testing", () => {
         const trip = createTrip();
 
         jest.spyOn(milesCalculatorService, "calculateMiles").mockReturnValueOnce(5970);
-        jest.spyOn(milesRepository, "findMiles").mockResolvedValueOnce({
-            id: 1,
-            code: "TRIP123",
-            miles: 123
-        });
+        jest.spyOn(milesRepository, "findMiles").mockResolvedValueOnce(createMilesData());
         jest.spyOn(milesRepository, "saveMiles").mockResolvedValueOnce(undefined);
         
         const promise = generateMilesForTrip(trip);

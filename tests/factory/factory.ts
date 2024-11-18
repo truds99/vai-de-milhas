@@ -13,7 +13,7 @@ export function createTrip() {
             long: Number(faker.location.longitude()),
         },
         miles: false,
-        plane: faker.vehicle.model(),
+        plane: faker.airline.airplane().name,
         service: faker.helpers.arrayElement(Object.values(ServiceClass)),
         affiliate: faker.helpers.arrayElement(Object.values(AffiliateStatus)),
         date: faker.date.future().toISOString()
