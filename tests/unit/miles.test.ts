@@ -2,6 +2,7 @@ import { generateMilesForTrip, getMilesFromCode } from "services/miles-service";
 import * as milesCalculatorService from "../../src/services/miles-calculator-service";
 import * as milesRepository from "../../src/repositories/miles-repository";
 import { Trip, ServiceClass, AffiliateStatus } from "protocols";
+import { createTrip } from "../factory/factory";
 
 beforeEach(() => {
     jest.clearAllMocks();
@@ -10,22 +11,7 @@ beforeEach(() => {
 describe("miles-service Unit Testing", () => {
 
     it("Should return miles for trip", async () => {
-        const trip: Trip = {
-            code: "TRIP123",
-            origin: {
-              lat: 23.55052,
-              long: 46.633308
-            },
-            destination: {
-              lat: 40.712776,
-              long: 74.005974
-            },
-            miles: false,
-            plane: "Boeing 737",
-            service: ServiceClass.EXECUTIVE,
-            affiliate: AffiliateStatus.GOLD,
-            date: "2024-12-25"
-        };
+        const trip = createTrip();
         
         jest.spyOn(milesCalculatorService, "calculateMiles").mockReturnValueOnce(5970);
         jest.spyOn(milesRepository, "findMiles").mockResolvedValueOnce(undefined);
@@ -39,23 +25,7 @@ describe("miles-service Unit Testing", () => {
     })
 
     it("Should throw an error when miles is already registered", () => {
-
-        const trip: Trip = {
-            code: "TRIP123",
-            origin: {
-              lat: 23.55052,
-              long: 46.633308
-            },
-            destination: {
-              lat: 40.712776,
-              long: 74.005974
-            },
-            miles: false,
-            plane: "Boeing 737",
-            service: ServiceClass.EXECUTIVE,
-            affiliate: AffiliateStatus.GOLD,
-            date: "2024-12-25"
-        };
+        const trip = createTrip();
 
         jest.spyOn(milesCalculatorService, "calculateMiles").mockReturnValueOnce(5970);
         jest.spyOn(milesRepository, "findMiles").mockResolvedValueOnce({
